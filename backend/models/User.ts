@@ -5,7 +5,7 @@ import type { IUserSchema } from "../types/user";
 
 const userSchema = new mongoose.Schema<IUserSchema>({
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true, select: false},
   refreshTokens: { type: [String], required: false },
 });
 

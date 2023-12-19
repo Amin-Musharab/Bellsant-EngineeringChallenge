@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 import User from '../models/User';
-import { IJwtPayload } from '../types/user';
 import { getEnvironmentVariable, sendErrorResponse } from '../utils';
+import type { IUserJwtPayload } from '../types/user';
 
 const FORBIDDEN_MESSAGE = 'Forbidden';
 const SERVER_ERROR_MESSAGE = 'Server Error';
@@ -20,7 +20,7 @@ export const login = async (req: Request, res: Response) => {
 
     const { username, password } = req.body;
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).select({ password: 1 });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return sendErrorResponse(res, 401, 'Invalid credentials');
     }
@@ -83,7 +83,7 @@ export const token = async (req: Request, res: Response) => {
     jwt.verify(refreshToken, refreshTokenSecret, {}, (err, decoded) => {
       if (err) return sendErrorResponse(res, 403, FORBIDDEN_MESSAGE);
 
-      decoded = decoded as IJwtPayload;
+      decoded = decoded as IUserJwtPayload;
 
       const accessToken = jwt.sign(
         { userId: decoded?.userId },

@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express, { Request, Response } from 'express';
 
 import authRouter from './routes/auth.route';
+import userRouter from './routes/user.route';
 import dbConnection from './database/connection';
 import { getMachineHealth } from './machineHealth';
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 // Routers
 app.use(authRouter);
+app.use(userRouter);
 
 // Endpoint to get machine health score
 app.post('/machine-health', (req: Request, res: Response) => {

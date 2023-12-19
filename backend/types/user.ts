@@ -6,6 +6,14 @@ export interface IUserSchema {
 
 export type IUser = Omit<IUserSchema, 'password'>;
 
-export interface IJwtPayload {
+export interface IUserJwtPayload {
   userId: string;
+}
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUserJwtPayload;
+    }
+  }
 }

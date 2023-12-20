@@ -1,11 +1,12 @@
-import {Button, Platform, StyleSheet} from 'react-native';
-import {Text, View} from '../../components/Themed';
-import {Link, useFocusEffect} from 'expo-router';
+import { Button, Platform, StyleSheet } from 'react-native';
+import { Link } from 'expo-router';
 import axios from 'axios';
-import {useMachineData} from '../useMachineData';
-import {useCallback, useState} from 'react';
-import {PartsOfMachine} from '../../components/PartsOfMachine';
-import {MachineScore} from '../../components/MachineScore';
+import { useCallback, useContext } from 'react';
+
+import { PartsOfMachine } from '../../components/PartsOfMachine';
+import { MachineScore } from '../../components/MachineScore';
+import { MachineDataContext } from '../../context/MachineDataContext';
+import { Text, View } from '../../components/Themed';
 
 let apiUrl: string =
   'https://fancy-dolphin-65b07b.netlify.app/api/machine-health';
@@ -17,15 +18,8 @@ if (__DEV__) {
 }
 
 export default function StateScreen() {
-  const {machineData, resetMachineData, loadMachineData, setScores} =
-    useMachineData();
-
-  //Doing this because we're not using central state like redux
-  useFocusEffect(
-    useCallback(() => {
-      loadMachineData();
-    }, []),
-  );
+  const { machineData, resetMachineData, setScores } =
+    useContext(MachineDataContext);
 
   const calculateHealth = useCallback(async () => {
     try {
@@ -43,7 +37,7 @@ export default function StateScreen() {
           error.toString() === 'AxiosError: Network Error'
             ? 'Is the api server started?'
             : error
-        }`,
+        }`
       );
     }
   }, [machineData]);

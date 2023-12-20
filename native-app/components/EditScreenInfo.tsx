@@ -75,10 +75,6 @@ export default function EditScreenInfo({ path }: { path: string }) {
     },
   ];
 
-  const apiUrl: string = `http://${
-    Platform?.OS === 'android' ? '10.0.2.2' : 'localhost'
-  }:3001/machine-health`;
-
   const savePart = useCallback(async () => {
     try {
       if (!(machineName && partName)) {

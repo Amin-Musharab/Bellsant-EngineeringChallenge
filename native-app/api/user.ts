@@ -5,3 +5,17 @@ export const me = async () => {
 
   return data;
 };
+
+export const persistMachineData = async (machineData: Record<string, any>) => {
+  const { data } = await apiClient.post('/me/persist-machine-data', {
+    machineData,
+  });
+
+  return data;
+};
+
+export const removeMachineData = async () => {
+  const { data } = await apiClient.delete('/me/machine-data');
+
+  return data;
+};

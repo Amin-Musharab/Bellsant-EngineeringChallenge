@@ -15,3 +15,37 @@ export const me = async (req: Request, res: Response) => {
     sendErrorResponse(res, 500, SERVER_ERROR_MESSAGE);
   }
 };
+
+export const persistMachineData = async (req: Request, res: Response) => {
+  try {
+    const { machineData } = req.body;
+
+    await User.updateOne(
+      {
+        _id: req.user?.userId,
+      },
+      { machineData }
+    );
+
+    res.status(200).send({ message: 'Successful' });
+  } catch (err) {
+    console.error(err);
+    sendErrorResponse(res, 500, SERVER_ERROR_MESSAGE);
+  }
+};
+
+export const removeMachineData = async (req: Request, res: Response) => {
+  try {
+    await User.updateOne(
+      {
+        _id: req.user?.userId,
+      },
+      { $unset: { machineData: 1 } }
+    );
+
+    res.status(200).send({ message: 'Successful' });
+  } catch (err) {
+    console.error(err);
+    sendErrorResponse(res, 500, SERVER_ERROR_MESSAGE);
+  }
+};

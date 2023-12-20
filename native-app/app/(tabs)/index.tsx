@@ -1,21 +1,12 @@
-import { Button, Platform, StyleSheet } from 'react-native';
+import { Button, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
-import axios from 'axios';
 import { useCallback, useContext } from 'react';
 
 import { PartsOfMachine } from '../../components/PartsOfMachine';
 import { MachineScore } from '../../components/MachineScore';
 import { MachineDataContext } from '../../context/MachineDataContext';
 import { Text, View } from '../../components/Themed';
-
-let apiUrl: string =
-  'https://fancy-dolphin-65b07b.netlify.app/api/machine-health';
-
-if (__DEV__) {
-  apiUrl = `http://${
-    Platform?.OS === 'android' ? '10.0.2.2' : 'localhost'
-  }:3001/machine-health`;
-}
+import * as machinesApi from '../../api/machines';
 
 export default function StateScreen() {
   const { machineData, resetMachineData, setScores } =
@@ -23,12 +14,10 @@ export default function StateScreen() {
 
   const calculateHealth = useCallback(async () => {
     try {
-      const response = await axios.post(apiUrl, {
-        machines: machineData?.machines,
-      });
+      const data = await machinesApi.getMachineHealth(machineData?.machines);
 
-      if (response.data?.factory) {
-        setScores(response.data);
+      if (data?.factory) {
+        setScores(data);
       }
     } catch (error) {
       console.error(error);

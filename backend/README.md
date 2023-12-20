@@ -25,6 +25,8 @@ Follow these steps to set up the BellSant Machine Health API:
    yarn
    ```
 
+3. Ensure environment variables are correctly configured in your .env file. Please see .env.example for required variables.
+
 ## Usage
 
 ### Starting the API
@@ -42,7 +44,7 @@ The API will be accessible at `http://localhost:3001` by default. You can change
 You can evaluate the health of a machine by sending a POST request to the `/machine-health` endpoint. Here's an example using cURL:
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer <your_access_token>" -d '{
   "machines": {
     "weldingRobot": {
       "errorRate": "0.5",
@@ -57,6 +59,13 @@ The response will include the machine name and its health score.
 ### API Endpoints
 
 - `POST /machine-health`: Calculate the health of a machine based on provided data.
+- `GET /me`: Get authenticated user data
+- `POST /me/persist-machine-health`: Persist latest user machine data points
+- `DELETE /machine-health`: Remove user machine data points
+- `POST /signup`: Sign up a new user
+- `POST /login`: Login user to get access token and refresh token
+- `POST /token`: Genereate new access token from refresh token
+- `POST /logout`: Purge refresh token
 
 ## Testing
 

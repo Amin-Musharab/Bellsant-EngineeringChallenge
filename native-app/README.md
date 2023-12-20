@@ -38,12 +38,17 @@ The project structure is organized as follows:
 - `components/`: Contains reusable components used throughout the app.
 - `app/`: Contains individual screens or pages/tabs of the app.
 - `data/`: Stores JSON files with machine and part data for evaluation.
+- `context/`: Contains react context used for global state management.
+- `api/`: Contain functionality to communciate with backend api.
+- `hooks/`: Contains reusable custom react hooks.
 
 ## Screens and Features
 
 The app has the following screens and features:
 
 - **Machine Health**: Allows users to select a machine, part name, and part value, and calculates the health score of the machine.
+- **Login**: Allows users to log into the applicaiton.
+- **Sign Up** Allows users to sign up for the application.
 
 ## Adding Tests
 
